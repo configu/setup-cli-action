@@ -1,8 +1,11 @@
 /* eslint-disable no-unused-vars */
 const os = require('os');
 const path = require('path');
+const fs = require('fs').promises;
+
 const core = require('@actions/core');
 const tc = require('@actions/tool-cache');
+const io = require('@actions/io');
 const { exec } = require('@actions/exec');
 
 const VERSION_ARG = 'version';
@@ -27,6 +30,10 @@ const setup = async () => {
     core.addPath(binPath);
 
     console.log(downloadUrl, tarballPath, cliPath, binPath);
+    const files = await fs.readdir(cliPath);
+    files.forEach((file) => {
+      console.log(file);
+    });
 
     // todo: handle authentication args (org, token)
   } catch (error) {

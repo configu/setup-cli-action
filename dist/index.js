@@ -6034,8 +6034,11 @@ var __webpack_exports__ = {};
 /* eslint-disable no-unused-vars */
 const os = __nccwpck_require__(37);
 const path = __nccwpck_require__(17);
+const fs = (__nccwpck_require__(147).promises);
+
 const core = __nccwpck_require__(186);
 const tc = __nccwpck_require__(784);
+const io = __nccwpck_require__(436);
 const { exec } = __nccwpck_require__(514);
 
 const VERSION_ARG = 'version';
@@ -6060,6 +6063,10 @@ const setup = async () => {
     core.addPath(binPath);
 
     console.log(downloadUrl, tarballPath, cliPath, binPath);
+    const files = await fs.readdir(cliPath);
+    files.forEach((file) => {
+      console.log(file);
+    });
 
     // todo: handle authentication args (org, token)
   } catch (error) {
