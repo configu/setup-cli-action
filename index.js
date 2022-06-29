@@ -25,11 +25,11 @@ const setup = async () => {
     const downloadUrl = getDownloadUrl();
     core.debug(`Downloading Configu CLI from ${downloadUrl}`);
     const tarballPath = await tc.downloadTool(downloadUrl);
-    const cliPath = await tc.extractTar(tarballPath);
-    const binPath = path.join(cliPath, 'bin');
-    core.addPath(binPath);
+    const extractedPath = await tc.extractTar(tarballPath);
+    const cliPath = path.join(extractedPath, 'configu', 'bin');
+    core.addPath(cliPath);
 
-    console.log(downloadUrl, tarballPath, cliPath, binPath);
+    console.log(downloadUrl, cliPath);
     const files = await fs.readdir(cliPath);
     files.forEach((file) => {
       console.log(file);
