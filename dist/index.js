@@ -6059,6 +6059,8 @@ const setup = async () => {
     const binPath = path.join(cliPath, 'bin');
     core.addPath(binPath);
 
+    console.log(downloadUrl, tarballPath, cliPath, binPath);
+
     // todo: handle authentication args (org, token)
   } catch (error) {
     core.setFailed(error.message);
