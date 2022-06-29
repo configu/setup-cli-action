@@ -1,9 +1,9 @@
 /* eslint-disable no-unused-vars */
-import path from 'path';
-import os from 'os';
-import core from '@actions/core';
-import tc from '@actions/tool-cache';
-import { exec } from '@actions/exec';
+const os = require('os');
+const path = require('path');
+const core = require('@actions/core');
+const tc = require('@actions/tool-cache');
+const { exec } = require('@actions/exec');
 
 const VERSION_ARG = 'version';
 const ORG_ARG = 'org';
