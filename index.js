@@ -26,14 +26,16 @@ const getDownloadUrl = async () => {
     });
     const data = await client.send(command);
 
+    console.log(data?.Contents);
     const objectKey = data?.Contents?.find((content) =>
       content?.Key.includes(`-${os.platform()}-${os.arch()}.tar.gz`),
     )?.Key;
     if (!objectKey) {
-      throw new Error();
+      throw new Error(`failed to find ${version} of Configu CLI`);
     }
     return `${CONFIGU_URL.origin}/${objectKey}`;
   } catch (error) {
+    console.log(error);
     throw new Error(`failed to fetch ${version} of Configu CLI`);
   }
 };

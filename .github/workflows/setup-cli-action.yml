@@ -57,9 +57,6 @@ jobs:
     strategy:
       matrix:
         os: [ubuntu-latest, windows-latest, macos-latest]
-    env:
-      CONFIGU_ORG: 'TEST_ORG'
-      CONFIGU_TOKEN: 'XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX'
     steps:
       - name: Checkout
         uses: actions/checkout@v3
@@ -67,8 +64,8 @@ jobs:
       - name: Setup Configu CLI
         uses: ./
         with:
-          org: ${{ env.CONFIGU_ORG }}
-          token: ${{ env.CONFIGU_TOKEN }}
+          org: ${{ secrets.CONFIGU_ORG }}
+          token: ${{ secrets.CONFIGU_TOKEN }}
 
       - name: Validate Configu CLI Credentials
         run: configu list
