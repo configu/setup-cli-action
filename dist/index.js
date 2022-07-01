@@ -44016,7 +44016,8 @@ const tc = __nccwpck_require__(27784);
 const { exec } = __nccwpck_require__(71514);
 const { S3Client, ListObjectsCommand } = __nccwpck_require__(19250);
 
-const CONFIGU_URL = new URL('https://configu.io/cli');
+const CLI_BLOB_URL = new URL('https://configu.io/cli');
+const CLI_BLOB_REGION = 'us-east-1';
 const VERSION_ARG = 'version';
 const DEFAULT_VERSION = 'latest';
 const ORG_ARG = 'org';
@@ -44026,14 +44027,14 @@ const getDownloadUrl = async () => {
   const version = core.getInput(VERSION_ARG);
 
   if (version === DEFAULT_VERSION) {
-    return `${CONFIGU_URL.href}/channels/stable/configu-${os.platform()}-${os.arch()}.tar.gz`;
+    return `${CLI_BLOB_URL.href}/channels/stable/configu-${os.platform()}-${os.arch()}.tar.gz`;
   }
 
   try {
-    const client = new S3Client();
+    const client = new S3Client({ region: CLI_BLOB_REGION });
     const command = new ListObjectsCommand({
-      Bucket: CONFIGU_URL.hostname,
-      Prefix: `${CONFIGU_URL.pathname}/versions/${version}/`,
+      Bucket: CLI_BLOB_URL.hostname,
+      Prefix: `${CLI_BLOB_URL.pathname}/versions/${version}/`,
     });
     const data = await client.send(command);
 
@@ -44044,7 +44045,7 @@ const getDownloadUrl = async () => {
     if (!objectKey) {
       throw new Error(`failed to find ${version} of Configu CLI`);
     }
-    return `${CONFIGU_URL.origin}/${objectKey}`;
+    return `${CLI_BLOB_URL.origin}/${objectKey}`;
   } catch (error) {
     console.log(error);
     throw new Error(`failed to fetch ${version} of Configu CLI`);
