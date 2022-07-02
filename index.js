@@ -20,7 +20,10 @@ const getDownloadUrl = async () => {
   }
 
   try {
-    const client = new S3Client({ region: CLI_BLOB_REGION, credentials: false });
+    const client = new S3Client({
+      region: CLI_BLOB_REGION,
+      signer: { sign: async (request) => request },
+    });
     const command = new ListObjectsCommand({
       Bucket: CLI_BLOB_URL.hostname,
       Prefix: `${CLI_BLOB_URL.pathname}/versions/${version}/`,
