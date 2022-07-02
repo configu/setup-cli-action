@@ -30,6 +30,7 @@ const getDownloadUrl = async () => {
     });
     const data = await client.send(command);
 
+    console.log(data);
     console.log(data?.Contents);
     const objectKey = data?.Contents?.find((content) =>
       content?.Key.includes(`-${os.platform()}-${os.arch()}.tar.gz`),
