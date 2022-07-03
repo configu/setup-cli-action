@@ -44025,9 +44025,10 @@ const TOKEN_ARG = 'token';
 
 const getDownloadUrl = async () => {
   const version = core.getInput(VERSION_ARG);
+  const extension = `${os.platform()}-${os.arch()}.tar.gz`;
 
   if (version === DEFAULT_VERSION) {
-    return `${CLI_BLOB_URL.href}/channels/stable/configu-${os.platform()}-${os.arch()}.tar.gz`;
+    return `${CLI_BLOB_URL.href}/channels/stable/configu-${extension}`;
   }
 
   try {
@@ -44041,9 +44042,7 @@ const getDownloadUrl = async () => {
     });
     const data = await client.send(command);
 
-    const objectKey = data?.Contents?.find((content) =>
-      content?.Key.includes(`-${os.platform()}-${os.arch()}.tar.gz`),
-    )?.Key;
+    const objectKey = data?.Contents?.find((content) => content?.Key.includes(extension))?.Key;
     if (!objectKey) {
       throw new Error(`failed to find ${version} of Configu CLI`);
     }
