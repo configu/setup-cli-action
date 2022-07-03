@@ -44033,16 +44033,14 @@ const getDownloadUrl = async () => {
   try {
     const client = new S3Client({
       region: CLI_BLOB_REGION,
-      signer: { sign: async (request) => request },
+      signer: { sign: async (request) => request }, // ! workaround to use anonymous credentials with node.js s3 client
     });
     const command = new ListObjectsCommand({
       Bucket: CLI_BLOB_URL.hostname,
-      Prefix: `${CLI_BLOB_URL.pathname}/versions/${version}/`,
+      Prefix: `${CLI_BLOB_URL.pathname.substring(1)}/versions/${version}/`, // ! remove the leading '/' character from pathname since the prefix property is sensitive to that
     });
     const data = await client.send(command);
 
-    console.log(data);
-    console.log(data?.Contents);
     const objectKey = data?.Contents?.find((content) =>
       content?.Key.includes(`-${os.platform()}-${os.arch()}.tar.gz`),
     )?.Key;
@@ -44051,7 +44049,7 @@ const getDownloadUrl = async () => {
     }
     return `${CLI_BLOB_URL.origin}/${objectKey}`;
   } catch (error) {
-    console.log(error);
+    core.error(error);
     throw new Error(`failed to fetch ${version} of Configu CLI`);
   }
 };
