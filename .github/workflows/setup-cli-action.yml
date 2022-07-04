@@ -51,8 +51,8 @@ jobs:
         if: ${{ matrix['version'] == 'latest' }}
         run: configu version | grep '@configu/cli'
 
-  test-credentials:
-    name: 'Test credentials configuration'
+  test-login-credentials:
+    name: 'Test login with credentials from configuration'
     runs-on: ${{ matrix.os }}
     strategy:
       matrix:
@@ -67,5 +67,24 @@ jobs:
           org: ${{ secrets.CONFIGU_ORG }}
           token: ${{ secrets.CONFIGU_TOKEN }}
 
-      - name: Validate Configu CLI Credentials
+      - name: Validate Configu API access
         run: configu list
+
+  test-env-credentials:
+    name: 'Test auth with credentials from environment variables'
+    runs-on: ${{ matrix.os }}
+    strategy:
+      matrix:
+        os: [ubuntu-latest, windows-latest, macos-latest]
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+
+      - name: Setup Configu CLI
+        uses: ./
+
+      - name: Validate Configu API access
+        run: configu list
+        env:
+          CONFIGU_ORG: ${{ secrets.CONFIGU_ORG }}
+          CONFIGU_TOKEN: ${{ secrets.CONFIGU_TOKEN }}
