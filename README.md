@@ -2,9 +2,9 @@
 
 [![Tests Setup Configu CLI Action](https://github.com/configu/setup-cli-action/actions/workflows/setup-cli-action.yml/badge.svg)](https://github.com/configu/setup-cli-action/actions/workflows/setup-cli-action.yml)
 
-This action is a JavaScript action that sets up Configu CLI in your GitHub Actions workflow by downloading a specific version of it and adding it to the `PATH`.
+The configu/setup-cli-action action is a JavaScript action that sets up Configu CLI in your GitHub Actions workflow by downloading a specific version of Configu CLI and adding it to the `PATH`.
 
-After you've used the action, subsequent steps in the same job can run arbitrary Configu CLI commands. which work exactly like they do on your local command line.
+After you've used the action, subsequent steps in the same job can run arbitrary Configu CLI commands. All of Configu commands work exactly like they do on your local command line.
 
 ## Usage
 
@@ -55,7 +55,11 @@ jobs:
 
 ## Inputs
 
-The action supports the [following inputs](https://github.com/configu/setup-cli-action/blob/main/action.yml#L4).
+The action supports the [following inputs](https://github.com/configu/setup-cli-action/blob/main/action.yml#L4):
+- `version` (optional) - The version of Configu CLI to install. A value of `latest` will install the latest version of Configu CLI. Defaults to `latest`.
+- `org` (optional) - The organization id of a Configu SaaS instance to place within the credentials block of the Configu CLI configuration file.
+- `token` (optional) - The access token for a Configu SaaS instance to place within the credentials block of the Configu CLI configuration file.
+
 
 ## License
 
