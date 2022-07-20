@@ -2,9 +2,9 @@
 
 [![Tests Setup Configu CLI Action](https://github.com/configu/setup-cli-action/actions/workflows/setup-cli-action.yml/badge.svg)](https://github.com/configu/setup-cli-action/actions/workflows/setup-cli-action.yml)
 
-This action is a JavaScript action that sets up Configu CLI in your GitHub Actions workflow by downloading a specific version of it and adding it to the `PATH`.
+The configu/setup-cli-action action is a JavaScript action that sets up Configu CLI in your GitHub Actions workflow by downloading a specific version of Configu CLI and adding it to the `PATH`.
 
-After you've used the action, subsequent steps in the same job can run arbitrary Configu CLI commands. which work exactly like they do on your local command line.
+After you've used the action, subsequent steps in the same job can run arbitrary Configu CLI commands. All of Configu commands work exactly like they do on your local command line.
 
 ## Usage
 
@@ -14,14 +14,14 @@ The default configuration installs the latest version of Configu CLI.
 
 ```yaml
 steps:
-  - uses: configu/setup-cli-action@v1
+  - uses: configu/setup-cli-action@v1.0.0
 ```
 
 A specific version of Configu CLI can be installed.
 
 ```yaml
 steps:
-  - uses: configu/setup-cli-action@v1
+  - uses: configu/setup-cli-action@v1.0.0
     with:
       version: 0.0.105
 ```
@@ -31,7 +31,7 @@ Credentials for Configu SaaS platform ([app.configu.io](https://app.configu.io/)
 via inputs:
 ```yaml
 steps:
-  - uses: configu/setup-cli-action@v1
+  - uses: configu/setup-cli-action@v1.0.0
     with:
       org: ${{ secrets.CONFIGU_ORG }}
       token: ${{ secrets.CONFIGU_TOKEN }}
@@ -47,7 +47,7 @@ jobs:
       CONFIGU_TOKEN: ${{ secrets.CONFIGU_TOKEN }}
     steps:
       - name: Setup Configu CLI
-        uses: configu/setup-cli-action@v1
+        uses: configu/setup-cli-action@v1.0.0
       
       - name: Validate Configu API access
         run: configu list
