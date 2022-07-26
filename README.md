@@ -23,7 +23,7 @@ A specific version of Configu CLI can be installed.
 steps:
   - uses: configu/setup-cli-action@v1.0.0
     with:
-      version: 0.0.105
+      version: 0.0.127
 ```
 
 Credentials for Configu SaaS platform ([app.configu.io](https://app.configu.io/)) can be configured.

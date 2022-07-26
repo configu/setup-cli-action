@@ -3,39 +3,23 @@ const path = require('path');
 const core = require('@actions/core');
 const tc = require('@actions/tool-cache');
 const { exec } = require('@actions/exec');
-const { S3Client, ListObjectsCommand } = require('@aws-sdk/client-s3');
+const axios = require('axios');
 
-const CLI_BLOB_URL = new URL('https://configu.io/cli');
-const CLI_BLOB_REGION = 'us-east-1';
 const VERSION_ARG = 'version';
-const DEFAULT_VERSION = 'latest';
 const ORG_ARG = 'org';
 const TOKEN_ARG = 'token';
 
 const getDownloadUrl = async () => {
   const version = core.getInput(VERSION_ARG);
-  const extension = `${os.platform()}-${os.arch()}.tar.gz`;
-
-  if (version === DEFAULT_VERSION) {
-    return `${CLI_BLOB_URL.href}/channels/stable/configu-${extension}`;
-  }
 
   try {
-    const client = new S3Client({
-      region: CLI_BLOB_REGION,
-      signer: { sign: async (request) => request }, // ! workaround to use anonymous credentials with node.js s3 client
-    });
-    const command = new ListObjectsCommand({
-      Bucket: CLI_BLOB_URL.hostname,
-      Prefix: `${CLI_BLOB_URL.pathname.substring(1)}/versions/${version}/`, // ! remove the leading '/' character from pathname since the prefix property is sensitive to that
-    });
-    const data = await client.send(command);
-
-    const objectKey = data?.Contents?.find((content) => content?.Key.includes(extension))?.Key;
-    if (!objectKey) {
-      throw new Error(`failed to find ${version} of Configu CLI`);
-    }
-    return `${CLI_BLOB_URL.origin}/${objectKey}`;
+    const { data } = await axios.get(
+      `https://api.configu.io/cli/download?version=${version}&os=${os.platform()}&arch=${os.arch()}`,
+      {
+        responseType: 'text',
+      },
+    );
+    return data;
   } catch (error) {
     core.error(error);
     throw new Error(`failed to fetch ${version} of Configu CLI`);

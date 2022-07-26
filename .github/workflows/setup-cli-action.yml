@@ -33,7 +33,7 @@ jobs:
     strategy:
       matrix:
         os: [ubuntu-latest, windows-latest, macos-latest]
-        version: [0.0.105, latest]
+        version: [0.0.127, latest]
     steps:
       - name: Checkout
         uses: actions/checkout@v3
