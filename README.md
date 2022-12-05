@@ -14,30 +14,20 @@ The default configuration installs the latest version of Configu CLI.
 
 ```yaml
 steps:
-  - uses: configu/setup-cli-action@v1.0.0
+  - uses: configu/setup-cli-action@v1
 ```
 
 A specific version of Configu CLI can be installed.
 
 ```yaml
 steps:
-  - uses: configu/setup-cli-action@v1.0.0
+  - uses: configu/setup-cli-action@v1
     with:
-      version: 0.0.127
+      version: 0.4.4
 ```
 
-Credentials for Configu SaaS platform ([app.configu.io](https://app.configu.io/)) can be configured.
+Credentials for `Configu store` ([app.configu.com](https://app.configu.com/)) can be configured.
 
-via inputs:
-```yaml
-steps:
-  - uses: configu/setup-cli-action@v1.0.0
-    with:
-      org: ${{ secrets.CONFIGU_ORG }}
-      token: ${{ secrets.CONFIGU_TOKEN }}
-```
-
-via env:
 ```yaml
 jobs:
   job1:
@@ -47,10 +37,13 @@ jobs:
       CONFIGU_TOKEN: ${{ secrets.CONFIGU_TOKEN }}
     steps:
       - name: Setup Configu CLI
-        uses: configu/setup-cli-action@v1.0.0
+        uses: configu/setup-cli-action@v1
       
-      - name: Validate Configu API access
-        run: configu list
+      - name: Set Configu store
+      - run: configu store --name "configu" --uri "configu://-"
+      
+      - name: Export configurations
+        run: configu export --set "production" --schema "path/to/schema.cfgu.json"
 ```
 
 ## Inputs
@@ -62,6 +55,6 @@ The action supports the [following inputs](https://github.com/configu/setup-cli-
 This Action is licensed under [Apache License 2.0](https://github.com/configu/setup-cli-action/blob/main/LICENSE).
 
 ## References
-- [Configu SaaS platform (app.configu.io)](https://app.configu.io/)
-- [Configu Documentation](https://configu.io/docs)
+- [Configu SaaS platform (app.configu.com)](https://app.configu.com/)
+- [Configu Documentation](https://configu.com/docs)
 - [GitHub Actions Documentation](https://help.github.com/en/categories/automating-your-workflow-with-github-actions)

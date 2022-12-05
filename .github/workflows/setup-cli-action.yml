@@ -33,7 +33,7 @@ jobs:
     strategy:
       matrix:
         os: [ubuntu-latest, windows-latest, macos-latest]
-        version: [0.0.127, latest]
+        version: [0.4.4, latest]
     steps:
       - name: Checkout
         uses: actions/checkout@v3
@@ -51,40 +51,40 @@ jobs:
         if: ${{ matrix['version'] == 'latest' }}
         run: configu version | grep '@configu/cli'
 
-  test-login-credentials:
-    name: 'Test login with credentials from configuration'
-    runs-on: ${{ matrix.os }}
-    strategy:
-      matrix:
-        os: [ubuntu-latest, windows-latest, macos-latest]
-    steps:
-      - name: Checkout
-        uses: actions/checkout@v3
+  # test-login-credentials:
+  #   name: 'Test login with credentials from configuration'
+  #   runs-on: ${{ matrix.os }}
+  #   strategy:
+  #     matrix:
+  #       os: [ubuntu-latest, windows-latest, macos-latest]
+  #   steps:
+  #     - name: Checkout
+  #       uses: actions/checkout@v3
 
-      - name: Setup Configu CLI
-        uses: ./
-        with:
-          org: ${{ secrets.CONFIGU_ORG }}
-          token: ${{ secrets.CONFIGU_TOKEN }}
+  #     - name: Setup Configu CLI
+  #       uses: ./
+  #       with:
+  #         org: ${{ secrets.CONFIGU_ORG }}
+  #         token: ${{ secrets.CONFIGU_TOKEN }}
 
-      - name: Validate Configu API access
-        run: configu list
+  #     - name: Validate Configu API access
+  #       run: configu list
 
-  test-env-credentials:
-    name: 'Test auth with credentials from environment variables'
-    runs-on: ${{ matrix.os }}
-    strategy:
-      matrix:
-        os: [ubuntu-latest, windows-latest, macos-latest]
-    steps:
-      - name: Checkout
-        uses: actions/checkout@v3
+  # test-env-credentials:
+  #   name: 'Test auth with credentials from environment variables'
+  #   runs-on: ${{ matrix.os }}
+  #   strategy:
+  #     matrix:
+  #       os: [ubuntu-latest, windows-latest, macos-latest]
+  #   steps:
+  #     - name: Checkout
+  #       uses: actions/checkout@v3
 
-      - name: Setup Configu CLI
-        uses: ./
+  #     - name: Setup Configu CLI
+  #       uses: ./
 
-      - name: Validate Configu API access
-        run: configu list
-        env:
-          CONFIGU_ORG: ${{ secrets.CONFIGU_ORG }}
-          CONFIGU_TOKEN: ${{ secrets.CONFIGU_TOKEN }}
+  #     - name: Validate Configu API access
+  #       run: configu list
+  #       env:
+  #         CONFIGU_ORG: ${{ secrets.CONFIGU_ORG }}
+  #         CONFIGU_TOKEN: ${{ secrets.CONFIGU_TOKEN }}

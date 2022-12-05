@@ -6,12 +6,6 @@ inputs:
     description: 'The version of Configu CLI to install. A value of `latest` will install the latest version of Configu CLI. Defaults to `latest`.'
     default: 'latest'
     required: false
-  org:
-    description: 'The organization id of a Configu SaaS instance to place within the credentials block of the Configu CLI configuration file.'
-    required: false
-  token:
-    description: 'The access token for a Configu SaaS instance to place within the credentials block of the Configu CLI configuration file.'
-    required: false
 runs:
   using: 'node16'
   main: dist/index.js
