@@ -38,12 +38,9 @@ jobs:
     steps:
       - name: Setup Configu CLI
         uses: configu/setup-cli-action@v1
-      
-      - name: Set Configu store
-      - run: configu store --name "configu" --uri "configu://-"
-      
+
       - name: Export configurations
-        run: configu export --set "production" --schema "path/to/schema.cfgu.json"
+        run: configu export --store "configu://-" --set "production" --schema "path/to/schema.cfgu.json"
 ```
 
 ## Inputs

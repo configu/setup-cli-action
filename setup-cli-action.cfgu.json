@@ -1,5 +1,5 @@
 {
-  "setup-cli-action": {
+  "CONFIGU_CI": {
     "type": "String"
   }
 }
