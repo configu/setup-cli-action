@@ -30,13 +30,16 @@ runs:
         CONFIGU_VERSION: ${{ inputs.version }}
       run: |
         echo $env:PATH
-        Get-ChildItem -Recurse "C:\Program Files\configu"
+        # Get-ChildItem -Recurse "C:\Program Files\configu"
         iex (iwr -UseBasicParsing https://cli.configu.com/install.ps1)
-        Get-ChildItem -Recurse "C:\Program Files\configu"
+        # Get-ChildItem -Recurse "C:\Program Files\configu"
+        
         Test-Path -Path "C:\Program Files\configu\bin"
         echo $env:PATH
         echo "C:\Program Files\configu\bin" | Out-File -FilePath $env:GITHUB_PATH -Append
         echo $env:GITHUB_PATH
+
+        configu version
 
         # Start-Process -FilePath powershell -Verb RunAs -ArgumentList '-NoProfile','-InputFormat None','-ExecutionPolicy Bypass','-Command ""iex (iwr -UseBasicParsing https://cli.configu.com/install.ps1)""'
         # if [[ $(command -v configu) == "" ]]; then
