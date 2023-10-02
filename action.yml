@@ -57,7 +57,7 @@ runs:
 
         # Expands .tar file to configu dir
         cd $env:ProgramFiles
-        tar -xz $tempTarball
+        tar -xzf $tempTarball
         Remove-Item -Force $tempTarball
 
         # Attempt to add ourselves to the $PATH, but if we can't, don't fail the overall script.
