@@ -8,9 +8,9 @@ on:
       - main
   pull_request:
 
-defaults:
-  run:
-    shell: bash
+# defaults:
+#   run:
+#     shell: bash
 
 jobs:
   test-default:
