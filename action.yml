@@ -30,12 +30,12 @@ runs:
         CONFIGU_VERSION: ${{ inputs.version }}
       run: |
         Set-StrictMode -Version Latest
-        $ErrorActionPreference = "Stop"
-        $ProgressPreference = "SilentlyContinue"
+        # $ErrorActionPreference = "Stop"
+        # $ProgressPreference = "SilentlyContinue"
 
         $tarballName = "configu-win32-x64.tar.gz"
         $downloadUrl = "https://cli.configu.com/channels/stable/$tarballName"
-        $tarArgs = "xz"
+        # $tarArgs = "xz"
 
         $installRoot = (Join-Path $env:ProgramFiles "configu")
         $configRoot = (Join-Path $env:LOCALAPPDATA "configu")
@@ -57,7 +57,7 @@ runs:
 
         # Expands .tar file to configu dir
         cd $env:ProgramFiles
-        tar -xvzf $tempTarball
+        tar -xz $tempTarball
         Remove-Item -Force $tempTarball
 
         # Attempt to add ourselves to the $PATH, but if we can't, don't fail the overall script.
@@ -70,6 +70,13 @@ runs:
         } catch {
           Write-Host "Ensure that $binRoot is on your `$PATH to use it."
         }
+
+        echo $env:Path
+        echo $env:GITHUB_PATH
+        echo "C:\Program Files\configu\bin" | Out-File -FilePath $env:GITHUB_PATH -Append
+        echo $env:Path
+        echo $env:GITHUB_PATH
+        configu -h
 
         try {
           Write-Host "configu installed to $binRoot"
