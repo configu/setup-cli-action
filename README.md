@@ -8,9 +8,12 @@ After you've used the action, subsequent steps in the same job can run arbitrary
 
 ## Usage
 
-This action can be run on `ubuntu-latest`, `windows-latest`, and `macos-latest` GitHub Actions runners. 
+<!-- todo: test the powershell script -->
+<!-- This action can be run on `ubuntu-latest`, `windows-latest`, and `macos-latest` GitHub Actions runners. 
 
-When running on `windows-latest` the shell should be set to Bash.
+When running on `windows-latest` the shell should be set to Bash. -->
+
+This action can be run on `ubuntu-*` and `macos-*` GitHub Actions runners. 
 
 The default configuration installs the latest version of Configu CLI.
 
