@@ -29,8 +29,8 @@ runs:
       env:
         CONFIGU_VERSION: ${{ inputs.version }}
       run: |
-        if [[ $(command -v configu) == "" ]]; then
-          powershell -Command "Start-Process -FilePath powershell -Verb RunAs -ArgumentList '-NoProfile','-InputFormat None','-ExecutionPolicy Bypass','-Command ""iex (iwr -UseBasicParsing https://cli.configu.com/install.ps1)""'"
-        else
-          echo "Configu CLI is already installed. No operation was performed."
-        fi
+        powershell -Command "Start-Process -FilePath powershell -Verb RunAs -ArgumentList '-NoProfile','-InputFormat None','-ExecutionPolicy Bypass','-Command ""iex (iwr -UseBasicParsing https://cli.configu.com/install.ps1)""'"
+        # if [[ $(command -v configu) == "" ]]; then
+        # else
+        #   echo "Configu CLI is already installed. No operation was performed."
+        # fi
