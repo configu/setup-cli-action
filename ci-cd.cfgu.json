@@ -1,0 +1,7 @@
+{
+  "CI_CD_PLATFORM": {
+    "type": "String",
+    "required": true,
+    "description": "The name of the CI/CD platform"
+  }
+}
