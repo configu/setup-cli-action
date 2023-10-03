@@ -8,16 +8,37 @@ on:
       - main
   pull_request:
 
-# defaults:
-#   run:
-#     shell: bash
-
 jobs:
-  test-default:
+  test-version:
     runs-on: ${{ matrix.os }}
     strategy:
       matrix:
-        os: [ubuntu-latest, windows-latest, macos-latest]
+        # os: [ubuntu-latest, windows-latest, macos-latest]
+        os: [ubuntu-latest, macos-latest]
+        version: [0.4.4, latest]
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+
+      - name: Setup Configu CLI - ${{ matrix['version'] }}
+        uses: ./
+        with:
+          version: ${{ matrix['version'] }}
+
+      - name: Validate Configu CLI version - ${{ matrix['version'] }}
+        if: ${{ matrix['version'] != 'latest' }}
+        run: configu version | grep ${{ matrix['version'] }}
+
+      - name: Validate Configu CLI version - ${{ matrix['version'] }}
+        if: ${{ matrix['version'] == 'latest' }}
+        run: configu version | grep '@configu/cli'
+
+  test-command:
+    runs-on: ${{ matrix.os }}
+    strategy:
+      matrix:
+        # os: [ubuntu-latest, windows-latest, macos-latest]
+        os: [ubuntu-latest, macos-latest]
     steps:
       - name: Checkout
         uses: actions/checkout@v3
@@ -25,48 +46,10 @@ jobs:
       - name: Setup Configu CLI
         uses: ./
 
-      - name: Validate Configu CLI installation
-        run: configu version
-
-  # test-version:
-  #   runs-on: ${{ matrix.os }}
-  #   strategy:
-  #     matrix:
-  #       os: [ubuntu-latest, windows-latest, macos-latest]
-  #       version: [0.4.4, latest]
-  #   steps:
-  #     - name: Checkout
-  #       uses: actions/checkout@v3
-
-  #     - name: Setup Configu CLI - ${{ matrix['version'] }}
-  #       uses: ./
-  #       with:
-  #         version: ${{ matrix['version'] }}
-
-  #     - name: Validate Configu CLI Version - ${{ matrix['version'] }}
-  #       if: ${{ matrix['version'] != 'latest' }}
-  #       run: configu version | grep ${{ matrix['version'] }}
-
-  #     - name: Validate Configu CLI Version - ${{ matrix['version'] }}
-  #       if: ${{ matrix['version'] == 'latest' }}
-  #       run: configu version | grep '@configu/cli'
-
-  # test-command:
-  #   runs-on: ${{ matrix.os }}
-  #   strategy:
-  #     matrix:
-  #       os: [ubuntu-latest, windows-latest, macos-latest]
-  #   steps:
-  #     - name: Checkout
-  #       uses: actions/checkout@v3
-
-  #     - name: Setup Configu CLI
-  #       uses: ./
-
-  #     - name: Validate Configu Store access
-  #       run: |
-  #         configu test --store 'configu'
-  #         configu eval --store 'configu' --set 'test/github-actions' --schema './ci-cd.cfgu.json' | configu export --explain
-  #       env:
-  #         CONFIGU_ORG: ${{ secrets.CONFIGU_ORG }}
-  #         CONFIGU_TOKEN: ${{ secrets.CONFIGU_TOKEN }}
+      - name: Validate Configu CLI commands
+        run: |
+          configu test --store 'configu'
+          configu eval --store 'configu' --set 'test/github-actions' --schema './ci-cd.cfgu.json' | configu export --explain
+        env:
+          CONFIGU_ORG: ${{ secrets.CONFIGU_ORG }}
+          CONFIGU_TOKEN: ${{ secrets.CONFIGU_TOKEN }}

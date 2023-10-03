@@ -13,8 +13,8 @@ runs:
   using: 'composite'
   steps:
     - name: 'Setup Configu CLI Unix'
-      shell: bash
       if: runner.os != 'Windows'
+      shell: bash
       env:
         CONFIGU_VERSION: ${{ inputs.version }}
       run: |
@@ -23,66 +23,13 @@ runs:
         else
           echo "Configu CLI is already installed. No operation was performed."
         fi
+
+    # todo: finalize ps1 script in cli and then test with iwr ...
     - name: 'Setup Configu CLI Windows'
-      shell: pwsh
       if: runner.os == 'Windows'
+      shell: pwsh
       env:
         CONFIGU_VERSION: ${{ inputs.version }}
       run: |
-        Set-StrictMode -Version Latest
-        # $ErrorActionPreference = "Stop"
-        # $ProgressPreference = "SilentlyContinue"
-
-        $tarballName = "configu-win32-x64.tar.gz"
-        $downloadUrl = "https://cli.configu.com/channels/stable/$tarballName"
-        # $tarArgs = "xz"
-
-        $installRoot = (Join-Path $env:ProgramFiles "configu")
-        $configRoot = (Join-Path $env:LOCALAPPDATA "configu")
-        $binRoot = (Join-Path $installRoot "bin")
-
-        # If we have a previous install, delete it.
-        if (Test-Path -Path $installRoot) {
-          Remove-Item -Recurse -Force $installRoot
-        }
-        if (Test-Path -Path $configRoot) {
-          Remove-Item -Recurse -Force $configRoot
-        }
-
-        Write-Host "Installing CLI from $downloadUrl"
-
-        # Downloads the win32 tarball
-        $tempTarball = New-Item -Type File (Join-Path $env:TEMP $tarballName) -Force
-        Invoke-WebRequest $downloadUrl -OutFile $tempTarball
-
-        # Expands .tar file to configu dir
-        cd $env:ProgramFiles
-        tar -xzf $tempTarball
-        Remove-Item -Force $tempTarball
-
-        # Attempt to add ourselves to the $PATH, but if we can't, don't fail the overall script.
-        try {
-          if ($env:Path -notlike "*$binRoot*") {
-            [Environment]::SetEnvironmentVariable("Path", $env:Path + ";" + $binRoot, [System.EnvironmentVariableTarget]::Machine)
-            SETX /M PATH "$env:Path;$binRoot" > $null
-            $env:PATH = "$env:Path;$binRoot"
-          }
-        } catch {
-          Write-Host "Ensure that $binRoot is on your `$PATH to use it."
-        }
-
-        echo $env:Path
-        echo $env:GITHUB_PATH
-        echo "C:\Program Files\configu\bin" | Out-File -FilePath $env:GITHUB_PATH -Append
-        echo $env:Path
-        echo $env:GITHUB_PATH
-        configu -h
-
-        try {
-          Write-Host "configu installed to $binRoot"
-          configu version
-        } catch {
-        } finally {
-          Start-Sleep -Seconds 3
-          exit 0
-        }
+        echo "windows support is in progress"
+        exit 1
