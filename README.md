@@ -1,14 +1,19 @@
 # configu/setup-cli-action
 
-[![Tests Setup Configu CLI Action](https://github.com/configu/setup-cli-action/actions/workflows/setup-cli-action.yml/badge.svg)](https://github.com/configu/setup-cli-action/actions/workflows/setup-cli-action.yml)
+[![Test setup Configu CLI GitHub Actions](https://github.com/configu/setup-cli-action/actions/workflows/setup-cli-action.yml/badge.svg)](https://github.com/configu/setup-cli-action/actions/workflows/setup-cli-action.yml)
 
-The configu/setup-cli-action action is a JavaScript action that sets up Configu CLI in your GitHub Actions workflow by downloading a specific version of Configu CLI and adding it to the `PATH`.
+The `configu/setup-cli-action` action is a [composite action](https://docs.github.com/en/actions/creating-actions/creating-a-composite-action) that sets up Configu CLI in your GitHub Actions workflow by downloading a specific version of Configu CLI and adding it to the `PATH`.
 
 After you've used the action, subsequent steps in the same job can run arbitrary Configu CLI commands. All of Configu commands work exactly like they do on your local command line.
 
 ## Usage
 
-This action can be run on `ubuntu-latest`, `windows-latest`, and `macos-latest` GitHub Actions runners. When running on `windows-latest` the shell should be set to Bash.
+<!-- todo: test the powershell script -->
+<!-- This action can be run on `ubuntu-latest`, `windows-latest`, and `macos-latest` GitHub Actions runners. 
+
+When running on `windows-latest` the shell should be set to Bash. -->
+
+This action can be run on `ubuntu-*` and `macos-*` GitHub Actions runners. 
 
 The default configuration installs the latest version of Configu CLI.
 
@@ -26,11 +31,11 @@ steps:
       version: 0.4.4
 ```
 
-Credentials for `Configu store` ([app.configu.com](https://app.configu.com/)) can be configured.
+Credentials for [`Configu Platform`](https://app.configu.com/) can be configured.
 
 ```yaml
 jobs:
-  job1:
+  some-job:
     runs-on: ubuntu-latest
     env:
       CONFIGU_ORG: ${{ secrets.CONFIGU_ORG }}
@@ -40,18 +45,19 @@ jobs:
         uses: configu/setup-cli-action@v1
 
       - name: Export configurations
-        run: configu export --store "configu://-" --set "production" --schema "path/to/schema.cfgu.json"
+        run: | 
+          configu eval --store 'configu' --set 'production' --schema 'path/to/schema.cfgu.json' | configu export
 ```
 
 ## Inputs
 
-The action supports the [following inputs](https://github.com/configu/setup-cli-action/blob/main/action.yml#L4).
+The action supports the [following inputs](https://github.com/configu/setup-cli-action/blob/main/action.yml#L7).
 
 ## License
 
 This Action is licensed under [Apache License 2.0](https://github.com/configu/setup-cli-action/blob/main/LICENSE).
 
 ## References
-- [Configu SaaS platform (app.configu.com)](https://app.configu.com/)
+- [Configu SaaS Platform (app.configu.com)](https://app.configu.com/)
 - [Configu Documentation](https://configu.com/docs)
 - [GitHub Actions Documentation](https://help.github.com/en/categories/automating-your-workflow-with-github-actions)

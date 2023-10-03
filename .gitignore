@@ -1,12 +1,3 @@
-# dependencies
-node_modules
-/.pnp
-.pnp.js
-.npm
-
-# linter
-.eslintcache
-
 # misc
 .DS_Store
 *.pem

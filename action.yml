@@ -1,14 +1,35 @@
 name: 'Setup Configu CLI'
-description: 'Install and configure Configu CLI.'
+description: 'Install and configure Configu CLI'
 author: 'Configu'
-inputs:
-  version:
-    description: 'The version of Configu CLI to install. A value of `latest` will install the latest version of Configu CLI. Defaults to `latest`.'
-    default: 'latest'
-    required: false
-runs:
-  using: 'node16'
-  main: dist/index.js
 branding:
   icon: 'terminal'
   color: 'gray-dark'
+inputs:
+  version:
+    description: 'The version of Configu CLI to install. A value of `stable`|`latest`|`lts` will install the latest version of Configu CLI. Defaults to `stable`.'
+    default: 'stable'
+    required: false
+runs:
+  using: 'composite'
+  steps:
+    - name: 'Setup Configu CLI Unix'
+      if: runner.os != 'Windows'
+      shell: bash
+      env:
+        CONFIGU_VERSION: ${{ inputs.version }}
+      run: |
+        if [[ $(command -v configu) == "" ]]; then
+          curl https://cli.configu.com/install.sh | sh
+        else
+          echo "Configu CLI is already installed. No operation was performed."
+        fi
+
+    # todo: finalize ps1 script in cli and then test with iwr ...
+    - name: 'Setup Configu CLI Windows'
+      if: runner.os == 'Windows'
+      shell: pwsh
+      env:
+        CONFIGU_VERSION: ${{ inputs.version }}
+      run: |
+        echo "windows support is in progress"
+        exit 1
